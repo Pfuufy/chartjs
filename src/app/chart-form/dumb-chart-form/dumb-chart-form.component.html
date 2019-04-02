@@ -1,0 +1,112 @@
+<form
+  [formGroup]="chartForm"
+  (ngSubmit)="chartFormSubmitted.emit(chartForm)"
+>
+  <div class="form-group">
+    <label>
+      Chart Name:
+      <input
+      formControlName="chartLabel"
+      type="text"
+      class="form-control"
+      >
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Chart Type:
+      <select
+        formControlName="chartType"
+        name="chartType" 
+        id="chartType"
+        class="form-control"
+      >
+        <option value="bar">Bar</option>
+        <option value="line">Line</option>
+        <option value="pie">Pie</option>
+        <option value="doughnut">Doutghnut</option>
+        <option value="polarArea">Polar Area</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Chart Color:
+      <select
+        formControlName="chartBckgColor"
+        name="chartBckgColor" 
+        id="chartBckgColor"
+        class="form-control"
+      >
+        <option value="red">Red</option>
+        <option value="green">Green</option>
+        <option value="blue">Blue</option>
+      </select>
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
+      Chart Border Color:
+      <select
+        formControlName="chartBorderColor"
+        name="chartBorderColor" 
+        id="chartBorderColor"
+        class="form-control"
+      >
+        <option value="blue">Blue</option>
+        <option value="black">Black</option>
+        <option value="orange">Orange</option>
+      </select>
+    </label>
+  </div>
+  <div
+    formArrayName="chartDataPoints"
+    class="form-group"
+  >
+    <h2>Data Points</h2>
+    <button
+      (click)="addDataPoint.emit()"
+      type="button"
+      class="btn btn-success mb-3"
+    >
+      +
+    </button>
+    <div
+      *ngFor="let dataPoint of chartForm.get('chartDataPoints').controls; let i = index;"
+      class="form-group"
+    >
+      <div
+        [formGroupName]="i"
+      >
+        <input
+          formControlName="label"
+          type="text"
+          placeholder="label"
+          class="form-control"
+        />
+        <input
+          formControlName="number"
+          type="text"
+          placeholder="number"
+          class="form-control"
+        />
+        <button
+          (click)="deleteDataPoint.emit(i)"
+          type="button"
+          class="btn btn-danger mt-1"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+      <button
+      [disabled]="!chartForm.valid"
+      type="submit"
+      class="btn btn-primary col-12 mb-1"
+    >
+      Submit
+    </button>
+  </div>
+</form>
