@@ -59,12 +59,14 @@ export class ChartComponent implements OnInit, OnDestroy {
       type: data.chartType,
       data: {
         labels: labels,
-        datasets: [{
-          label: data.chartLabel,
+        datasets: [
+          {
+          // label: data.chartLabel,
           data: numbers,
           backgroundColor: data.chartBckgColor,
           borderColor: data.chartBorderColor,
-        }]
+          }
+        ]
       }
     });
   }

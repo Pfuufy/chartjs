@@ -21,9 +21,8 @@ export class SmartChartFormComponent implements OnInit {
   initChartForm(): void {
     this.chartForm = this.fb.group({
       chartType: [null, Validators.required],
-      chartLabel: [null, Validators.required],
-      chartBckgColor: [null, Validators.required],
-      chartBorderColor: [null, Validators.required],
+      chartBckgColor: [null],
+      chartBorderColor: [null],
       chartDataPoints: this.fb.array([], Validators.required)
     });
   }
