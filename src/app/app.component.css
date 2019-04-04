@@ -1,0 +1,7 @@
+.form {
+    overflow-y: scroll; 
+    height: 95vh;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px grey;
+}

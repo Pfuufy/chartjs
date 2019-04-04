@@ -1,6 +1,17 @@
 <app-dumb-chart-form
     [chartForm]="chartForm"
+    [displayExtraFormInputs]="displayExtraFormInputs"
+    [displayBarAndLineInputs]="displayBarAndLineInputs"
+    [displayNormalInputs]="displayNormalInputs"
+    [displayMultiPlotInputBtn]="displayMultiPlotInputBtn"
+    [displayMultiPlotInputs]="displayMultiPlotInputs"
+    [displaySubmitBtn]="displaySubmitBtn"
+    (toggleMultipleDataPlots)="toggleMultipleDataPlots()"
+    (addXLabel)="addXLabel()"
+    (addDataPlot)="addDataPlot()"
     (addDataPoint)="addDataPoint()"
+    (deleteXLabel)="deleteXLabel($event)"
+    (deleteDataPlot)="deleteDataPlot($event)"
     (deleteDataPoint)="deleteDataPoint($event)"
     (chartFormSubmitted)="chartFormSubmitted($event)"
 >

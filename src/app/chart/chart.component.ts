@@ -54,6 +54,7 @@ export class ChartComponent implements OnInit, OnDestroy {
   newChart(data: ChartFormValues) {
     const labels = this.getDataPoints(data.chartDataPoints, DataPointTypes.LABEL);
     const numbers = this.getDataPoints(data.chartDataPoints, DataPointTypes.NUMBER);
+    const backgroundColors = this.getBackgroundColors(numbers.length);
 
     this._chart = new Chart('canvas', {
       type: data.chartType,
@@ -61,14 +62,35 @@ export class ChartComponent implements OnInit, OnDestroy {
         labels: labels,
         datasets: [
           {
-          // label: data.chartLabel,
+          label: 'chart',
           data: numbers,
-          backgroundColor: data.chartBckgColor,
-          borderColor: data.chartBorderColor,
+          backgroundColor: backgroundColors,
+          borderColor: 'white',
           }
         ]
       }
     });
+  }
+
+  getBackgroundColors(amount: number) {
+    const colors = [];
+
+    for (let i = 0; i < amount; i++) {
+      colors.push(this.getRandomColor());
+    }
+
+    return colors;
+  }
+
+  getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+
+    return color;
   }
 
   // come back to creating data type for data input

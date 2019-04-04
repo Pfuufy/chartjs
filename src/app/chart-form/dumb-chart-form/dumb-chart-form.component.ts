@@ -11,8 +11,19 @@ import { FormGroup } from '@angular/forms';
 export class DumbChartFormComponent implements OnInit {
 
   @Input() chartForm: FormGroup;
+  @Input() displayExtraFormInputs: boolean;
+  @Input() displayBarAndLineInputs: boolean;
+  @Input() displayNormalInputs: boolean;
+  @Input() displayMultiPlotInputBtn: boolean;
+  @Input() displayMultiPlotInputs: boolean;
+  @Input() displaySubmitBtn: boolean;
 
+  @Output() toggleMultipleDataPlots = new EventEmitter();
+  @Output() addXLabel = new EventEmitter();
+  @Output() addDataPlot = new EventEmitter();
   @Output() addDataPoint = new EventEmitter();
+  @Output() deleteXLabel = new EventEmitter<number>();
+  @Output() deleteDataPlot = new EventEmitter<number>();
   @Output() deleteDataPoint = new EventEmitter<number>();
   @Output() chartFormSubmitted = new EventEmitter<FormGroup>();
 
