@@ -4,6 +4,16 @@
 >
   <div class="form-group">
     <label>
+      Chart Name:
+      <input
+        formControlName="chartName"
+        type="text"
+        class="form-control"
+      />
+    </label>
+  </div>
+  <div class="form-group">
+    <label>
       Chart Type:
       <select
         formControlName="chartType"
@@ -20,120 +30,6 @@
     </label>
   </div>
   <div
-    *ngIf="displayBarAndLineInputs"
-  >
-    <div class="form-group">
-      <label>
-        <input
-          (click)="toggleMultipleDataPlots.emit()"
-          type="checkbox"
-        >
-        Multiple Data Plots
-      </label>
-    </div>
-    <div
-      *ngIf="displayExtraFormInputs"
-    >
-      <div
-        formArrayName="chartXLabels"
-        class="form-group"
-      >
-        X Labels:
-        <hr>
-        <button
-          (click)="addXLabel.emit()"
-          type="button"
-          class="btn btn-success"
-        >
-          Add Label
-        </button>
-        <div
-          *ngFor="let label of chartForm.get('chartXLabels').controls; let i = index;"
-          class="form-group mt-3"
-        >
-          <div
-            [formGroupName]="i"
-          >
-            <input
-              formControlName="label"
-              type="text"
-              placeholder="label"
-              class="form-control"
-            />
-            <button
-              (click)="deleteXLabel.emit(i)"
-              type="button"
-              class="btn btn-danger mt-1"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-      <div
-        formArrayName="chartDataPlots"
-        class="form-group"
-      >
-        Data Plot Names:
-        <hr>
-        <button
-          (click)="addDataPlot.emit()"
-          type="button"
-          class="btn btn-success"
-        >
-          Add Data Plot Name
-        </button>
-        <div
-          *ngFor="let label of chartForm.get('chartDataPlots').controls; let i = index;"
-          class="form-group mt-3"
-        >
-          <div
-            [formGroupName]="i"
-          >
-            <input
-              formControlName="dataPlot"
-              type="text"
-              placeholder="data plot name"
-              class="form-control"
-            />
-            <button
-              (click)="deleteDataPlot.emit(i)"
-              type="button"
-              class="btn btn-danger mt-1"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      *ngIf="displayMultiPlotInputBtn"
-    >
-      <hr>
-      Add Data Points:
-      <div
-        *ngFor="let label of chartForm.get('chartXLabels').value"
-        class="form-group mt-3"
-      >
-        {{ label.label }}:
-        <div
-          *ngFor="let plot of chartForm.get('chartDataPoints').controls; let i = index"
-        >
-          <div
-            [formGroupName]="i"
-          >
-            <input
-              type="number"
-              class="form-control"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div
-    *ngIf="displayNormalInputs"
     formArrayName="chartDataPoints"
     class="form-group"
   >
@@ -175,10 +71,7 @@
       </div>
     </div>
   </div>
-  <div
-    *ngIf="displaySubmitBtn"
-    class="form-group"
-  >
+  <div class="form-group">
     <hr>
       <button
       [disabled]="!chartForm.valid"

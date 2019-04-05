@@ -15,13 +15,6 @@ export class SmartChartFormComponent implements OnInit, OnDestroy {
 
   chartForm: FormGroup;
 
-  displayExtraFormInputs = false;
-  displayBarAndLineInputs = false;
-  displayNormalInputs = false;
-  displayMultiPlotInputBtn = false;
-  displayMultiPlotInputs = false;
-  displaySubmitBtn = false;
-
   private _subs = new Subscription();
 
   constructor(private fb: FormBuilder, private transferDataService: TransferDataService) { }
@@ -33,12 +26,9 @@ export class SmartChartFormComponent implements OnInit, OnDestroy {
 
   initChartForm(): void {
     this.chartForm = this.fb.group({
+      chartName: null,
       chartType: null,
-      chartBckgColor: null,
-      chartBorderColor: null,
-      chartXLabels: this.fb.array([]),
-      chartDataPlots: this.fb.array([]),
-      chartDataPoints: this.fb.array([])
+      xAxisData: this.fb.array([])
     });
   }
 
@@ -53,72 +43,23 @@ export class SmartChartFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  handleFormChange(): void {
-    const chartType = this.chartForm.value.chartType;
+  handleFormChange(): void {}
 
-    if (chartType === ChartTypes.BAR || chartType === ChartTypes.LINE) {
-      this.handleBarOrLineChart();
-
-    } else {
-      this.handleOtherTypeChart();
-    }
-
+  get xAxisData() {
+    return this.chartForm.get('xAxisData') as FormArray;
   }
 
-  handleBarOrLineChart(): void {
-    this.displayMultiPlotInputBtn = false;
-    this.displayBarAndLineInputs = true;
-    this.displaySubmitBtn = true;
-
-    if (this.displayExtraFormInputs) {
-      this.displayMultiPlotInputBtn = true;
-    }
-
-    if (!this.displayExtraFormInputs) {
-      this.displayNormalInputs = true;
-    }
+  addXAxisData(): void {
+    this.xAxisData.push(
+      this.fb.group({
+        xLabel: null,
+        data: this.fb.array([])
+      })
+    );
   }
 
-  handleOtherTypeChart(): void {
-    this.displayBarAndLineInputs = false;
-    this.displayExtraFormInputs = false;
-    this.displayMultiPlotInputBtn = false;
-    this.displayMultiPlotInputs = false;
-    this.displaySubmitBtn = true;
-    this.displayNormalInputs = true;
-
-    if (this.chartXLabels.length > 0) {
-      this.clearFormArray(this.chartXLabels);
-      this.clearFormArray(this.chartDataPlots);
-    }
-  }
-
-  toggleMultipleDataPlots(): void {
-    this.displayExtraFormInputs = !this.displayExtraFormInputs;
-
-    if (this.displayExtraFormInputs) {
-      this.displayNormalInputs = false;
-      this.displayMultiPlotInputBtn = true;
-
-    } else {
-      this.displayMultiPlotInputBtn = false;
-      this.displayMultiPlotInputs = false;
-      this.displayMultiPlotInputBtn = false;
-      this.displayNormalInputs = true;
-    }
-
-  }
-
-  get chartXLabels() {
-    return this.chartForm.get('chartXLabels') as FormArray;
-  }
-
-  get chartDataPlots() {
-    return this.chartForm.get('chartDataPlots') as FormArray;
-  }
-
-  get chartDataPoints() {
-    return this.chartForm.get('chartDataPoints') as FormArray;
+  deleteXLabel(index: number): void {
+    this.xAxisData.removeAt(index);
   }
 
   clearFormArray(arr: FormArray) {
@@ -127,50 +68,7 @@ export class SmartChartFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  addXLabel(): void {
-    this.chartXLabels.push(
-      this.fb.group({
-        label: null
-      })
-    );
-  }
-
-  addDataPlot(): void {
-    this.chartDataPlots.push(
-      this.fb.group({
-        dataPlot: null
-      })
-    );
-
-    this.chartDataPoints.push(
-      this.fb.array([])
-    );
-  }
-
-  addDataPoint(): void {
-    this.chartDataPoints.push(
-      this.fb.group({
-        label: null,
-        number: null
-      })
-    );
-  }
-
-  deleteXLabel(index: number): void {
-    this.chartXLabels.removeAt(index);
-  }
-
-  deleteDataPlot(index: number): void {
-    this.chartDataPlots.removeAt(index);
-    this.chartDataPoints.removeAt(index);
-  }
-
-  deleteDataPoint(index: number): void {
-    this.chartDataPoints.removeAt(index);
-  }
-
   chartFormSubmitted(chartForm: FormGroup): void {
-    console.log(chartForm.value);
     this.transferDataService.sendDataToChart(chartForm.value);
   }
 

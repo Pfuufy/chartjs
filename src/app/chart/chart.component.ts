@@ -62,7 +62,6 @@ export class ChartComponent implements OnInit, OnDestroy {
         labels: labels,
         datasets: [
           {
-          label: 'chart',
           data: numbers,
           backgroundColor: backgroundColors,
           borderColor: 'white',
