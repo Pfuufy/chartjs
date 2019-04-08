@@ -12,7 +12,10 @@ export class DumbChartFormComponent {
 
   @Input() chartForm: FormGroup;
 
-  @Output() toggleMultipleDataPlots = new EventEmitter();
+  @Output() addMetricToAllXLabels = new EventEmitter();
+  @Output() addXAxisData = new EventEmitter();
+  @Output() deleteXAxisData = new EventEmitter<number>();
+  @Output() deleteMetric = new EventEmitter();
   @Output() chartFormSubmitted = new EventEmitter<FormGroup>();
 
 }

@@ -11,8 +11,6 @@
         class="form-control"
       />
     </label>
-  </div>
-  <div class="form-group">
     <label>
       Chart Type:
       <select
@@ -30,45 +28,72 @@
     </label>
   </div>
   <div
-    formArrayName="chartDataPoints"
+    formArrayName="xAxisData"
     class="form-group"
   >
-    Data Points:
-    <hr>
     <button
-      (click)="addDataPoint.emit()"
+      (click)="addXAxisData.emit()"
       type="button"
-      class="btn btn-success"
+      class="btn btn-success mb-2 w-100"
     >
-      Add Data Point
+      Add X Axis Label
     </button>
-    <div
-      *ngFor="let dataPoint of chartForm.get('chartDataPoints').controls; let i = index;"
-      class="form-group mt-3"
-    >
-      <div
-        [formGroupName]="i"
+    <div class="btn-group mb-2 w-100" role="group">
+      <button
+        (click)="addMetricToAllXLabels.emit()"
+        type="button"
+        class="btn btn-info btn-secondary"
       >
-        <input
-          formControlName="label"
-          type="text"
-          placeholder="label"
-          class="form-control"
-        />
-        <input
-          formControlName="number"
-          type="number"
-          placeholder="number"
-          class="form-control"
-        />
-        <button
-          (click)="deleteDataPoint.emit(i)"
-          type="button"
-          class="btn btn-danger mt-1"
+        Add Metric
+      </button>
+      <button
+        (click)="deleteMetric.emit()"
+        type="button"
+        class="btn btn-danger btn-secondary"
+      >
+        Delete Metric
+      </button>
+    </div>
+    <div
+      *ngFor="let xAxisData of chartForm.get('xAxisData').controls; let i = index;"
+      [formGroupName]="i"
+      class="form-group"
+    >
+      <input
+        formControlName="xLabel"
+        type="text"
+        placeholder="x axis label"
+        class="form-control"
+      />
+      <div
+        formArrayName="data"
+      >
+        <div
+          *ngFor="let dataPoint of xAxisData.get('data').controls; let j = index"
+          [formGroupName]="j"
+          class="form-inline mt-1 ml-2"
         >
-          Delete
-        </button>
+          <input
+            formControlName="metricLabel"
+            placeholder="metric"
+            type="text"
+            class="form-control form-control-sm w-50"
+          >
+          <input
+            formControlName="metricValue"
+            placeholder="value"
+            type="number"
+            class="form-control form-control-sm w-50"
+          >
+        </div>
       </div>
+      <button
+        (click)="deleteXAxisData.emit(i)"
+        type="button"
+        class="btn btn-danger mt-1"
+      >
+        Delete
+      </button>
     </div>
   </div>
   <div class="form-group">

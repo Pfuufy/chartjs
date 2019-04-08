@@ -1,6 +1,9 @@
 <app-dumb-chart-form
     [chartForm]="chartForm"
-    (toggleMultipleDataPlots)="toggleMultipleDataPlots()"
+    (addMetricToAllXLabels)="addMetricToAllXLabels()"
+    (addXAxisData)="addXAxisData()"
+    (deleteMetric)="deleteMetric()"
+    (deleteXAxisData)="deleteXAxisData($event)"
     (chartFormSubmitted)="chartFormSubmitted($event)"
 >
 </app-dumb-chart-form>
