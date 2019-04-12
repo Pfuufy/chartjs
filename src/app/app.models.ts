@@ -1,9 +1,24 @@
 export interface ChartFormValues {
+    chartName: string;
     chartType: string;
-    chartLabel: string;
-    chartDataPoints: string;
-    chartBckgColor: string;
-    chartBorderColor: string;
+    xAxisData: XAxisData[];
+}
+
+export interface XAxisData {
+    xLabel: string;
+    data: MetricGroup[];
+}
+
+export interface MetricGroup {
+    metricLabel: string;
+    metricValue: number;
+}
+
+export interface ChartDataObject {
+    label: string;
+    data: [];
+    backgroundColor: string;
+    borderColor: string;
 }
 
 export enum DataPointTypes {
