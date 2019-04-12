@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { DataPointTypes, ChartFormValues, ChartDataObject } from '../app.models';
+import { ChartFormValues, ChartDataObject, MetricGroup, MetricArrs } from '../app.models';
 import { TransferDataService } from '../transfer-data.service';
 
 import { Chart } from 'chart.js';
@@ -77,47 +77,68 @@ export class ChartComponent implements OnInit, OnDestroy {
         return labels;
     }
 
-    getDataSets(data: ChartFormValues) {
-
-        const metricLabels = [];
-        const metricValues = [];
+    getDataSets(data: ChartFormValues): ChartDataObject[] {
+        let metricLabels: string[];
+        let metricValues: number[];
         const dataSets = [];
+        const valsArr = [];
 
         const xAxisData = data.xAxisData;
 
         for (let i = 0, len = xAxisData.length; i < len; i++) {
-            const data = xAxisData[i].data;
+            const labelData = xAxisData[i].data;
 
-            for (let j = 0, leng = data.length; j < leng; j++) {
-                const vals = data[j];
-                const label = vals.metricLabel;
-                const value = vals.metricValue;
+            for (let j = 0, leng = labelData.length; j < leng; j++) {
+                const vals = labelData[j];
 
-                if (!metricLabels.includes(label)) {
-                    metricLabels.push(label);
-                    metricValues[metricLabels.indexOf(label)] = [];
-                    metricValues[metricLabels.indexOf(label)].push(value);
-                } else {
-                    metricValues[metricLabels.indexOf(label)].push(value);
-                }
+                valsArr.push(vals);
             }
         }
 
-        for (let i = 0, len = metricLabels.length; i < len; i++) {
-            const dataSet = {
-                label: null,
-                data: null,
-                backgroundColor: this.getRandomColor(),
-                borderColor: 'white'
-            };
+        [metricLabels, metricValues] = this.createMetricArrs(valsArr);
 
-            dataSet.label = metricLabels[i];
-            dataSet.data = metricValues[i];
+        for (let i = 0, len = metricLabels.length; i < len; i++) {
+            const dataSet = this.createDataSet(metricLabels, metricValues, i);
 
             dataSets.push(dataSet);
         }
 
         return dataSets;
+    }
+
+    createMetricArrs(vals: MetricGroup[]) {
+        const metricLabels = [];
+        const metricValues = [];
+
+        for (let i = 0, len = vals.length; i < len; i++) {
+            const curr = vals[i];
+            const label = curr.metricLabel;
+            const value = curr.metricValue;
+
+            if (!metricLabels.includes(label)) {
+                metricLabels.push(label);
+                metricValues[metricLabels.indexOf(label)] = [];
+                metricValues[metricLabels.indexOf(label)].push(value);
+            } else {
+                metricValues[metricLabels.indexOf(label)].push(value);
+            }
+        }
+
+        return [metricLabels, metricValues];
+    }
+
+    createDataSet(metricLabels: string[], metricValues: number[], i: number): ChartDataObject {
+        const dataSet = {
+            label: null,
+            data: null,
+            backgroundColor: this.getRandomColor(),
+            borderColor: 'white'
+        };
+
+        dataSet.label = metricLabels[i];
+        dataSet.data = metricValues[i];
+
+        return dataSet;
     }
 
     getBackgroundColors(amount: number): string[] {

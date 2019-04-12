@@ -21,6 +21,11 @@ export interface ChartDataObject {
     borderColor: string;
 }
 
+export interface MetricArrs {
+    metricLabels: [];
+    metricValues: [];
+}
+
 export enum DataPointTypes {
     LABEL = 'LABEL',
     NUMBER = 'NUMBER'
