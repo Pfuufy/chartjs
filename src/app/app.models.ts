@@ -17,7 +17,7 @@ export interface MetricGroup {
 export interface ChartDataObject {
     label: string;
     data: [];
-    backgroundColor: string;
+    backgroundColor: string | string[];
     borderColor: string;
 }
 

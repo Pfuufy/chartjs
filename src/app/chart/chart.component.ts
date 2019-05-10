@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { ChartFormValues, ChartDataObject, MetricGroup, MetricArrs } from '../app.models';
+import { ChartFormValues, ChartDataObject, MetricGroup, ChartTypes } from '../app.models';
 import { TransferDataService } from '../transfer-data.service';
 
 import { Chart } from 'chart.js';
@@ -98,7 +98,7 @@ export class ChartComponent implements OnInit, OnDestroy {
         [metricLabels, metricValues] = this.createMetricArrs(valsArr);
 
         for (let i = 0, len = metricLabels.length; i < len; i++) {
-            const dataSet = this.createDataSet(metricLabels, metricValues, i);
+            const dataSet = this.createDataSet(data.chartType, metricLabels, metricValues, i);
 
             dataSets.push(dataSet);
         }
@@ -106,7 +106,7 @@ export class ChartComponent implements OnInit, OnDestroy {
         return dataSets;
     }
 
-    createMetricArrs(vals: MetricGroup[]) {
+    createMetricArrs(vals: MetricGroup[]): any[] {
         const metricLabels = [];
         const metricValues = [];
 
@@ -127,12 +127,21 @@ export class ChartComponent implements OnInit, OnDestroy {
         return [metricLabels, metricValues];
     }
 
-    createDataSet(metricLabels: string[], metricValues: number[], i: number): ChartDataObject {
+    createDataSet(
+        chartType: string,
+        metricLabels: string[],
+        metricValues: number[],
+        i: number
+        ): ChartDataObject {
+
+        const color = this.getRandomColor();
+
         const dataSet = {
             label: null,
             data: null,
-            backgroundColor: this.getRandomColor(),
-            borderColor: 'white'
+            backgroundColor: color,
+            borderColor: color,
+            fill: chartType === ChartTypes.LINE ? false : true
         };
 
         dataSet.label = metricLabels[i];
